@@ -7,10 +7,12 @@
 
 import Warrior from "./classes/Warrior"
 import Mage  from "./classes/Mage"
+import Player from "./classes/Player"
 
 // Initialisation game
 const player1 = new Warrior("John Doe")
 const player2 = new Mage("Sarah Doe")
+const players = [player1, player2]
 
 /**
  * At the start, John begins with 120 life points and Sarah with 100. 
@@ -64,3 +66,24 @@ player2.attack(player1)
 // show all attributes
 player1.status()
 player2.status()
+
+// Round x (until one of the two players dies)
+
+function performAttackOrHeal(attacker: Player, victim: Player) {
+    if (Math.floor(Math.random() * 2) === 0) {
+        attacker.attack(victim)
+    } else {
+        attacker.heal()
+    }
+}
+
+let round = 5;
+while (!player1.isDead && !player2.isDead) {
+    console.log("Round " + round++);
+    
+    performAttackOrHeal(player1, player2);
+    performAttackOrHeal(player2, player1);
+    for(let p of players) {
+        p.status()
+    }
+}
